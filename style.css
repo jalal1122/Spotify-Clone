@@ -156,11 +156,12 @@ nav svg {
 main {
   padding: 10px;
   display: flex;
-  gap: 5px;
+  gap: 10px;
+  position: relative;
 }
 
-main > *{
-    border-radius: 10px;
+main > * {
+  border-radius: 10px;
 }
 
 .left {
@@ -168,7 +169,7 @@ main > *{
   display: flex;
   flex-direction: column;
   gap: 20px;
-  padding: 15px 30px;
+  padding: 15px 15px;
   width: 25vw;
   color: white;
 }
@@ -177,7 +178,8 @@ main > *{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0px 0px 10px 0px #1f1f1f;
+  box-shadow: 0px 10px 10px #0000004d;
+  margin: 0 15px;
 }
 
 .library-icon svg {
@@ -207,6 +209,12 @@ main > *{
   display: flex;
   flex-direction: column;
   gap: 10px;
+  max-height: 65vh;
+  padding: 0 10px;
+  overflow: auto;
+  scroll-behavior: smooth;
+  scrollbar-color: #b3b3b3 #1f1f1f;
+  scroll-margin: 0 0 10px 0;
 }
 
 .songs-library ul {
@@ -217,19 +225,223 @@ main > *{
   gap: 15px;
 }
 
-.songs-library ul li{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: unset;
+.songs-library ul li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: unset;
 }
 
-.songs-library ul li i{
-    width: 15px;
+.songs-library ul li:hover {
+  background-color: #b3b3b3;
+  color: black;
+  border-radius: 10px;
 }
 
-.right{
-    background-color: #1f1f1f;
-    width: 73vw;
-    border: 2px solid white;
+.songs-library ul li h5 {
+  word-break: break-all;
+  width: 200px;
+  /* height: 20px; */
+  /* white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-lines: 2; */
+}
+
+.songs-library ul li svg {
+  width: 20px;
+  filter: invert(1);
+}
+
+.right {
+  background-color: #1f1f1f;
+  width: 75vw;
+  border: 2px solid white;
+}
+
+/* Left Footer CSS */
+
+.left-footer {
+  padding: 15px;
+}
+
+.left-footer span {
+  color: #b3b3b3;
+  font-size: 12px;
+  text-align: center;
+  margin: 10px 10px;
+}
+
+.left-footer h6 {
+  color: white;
+  margin: 20px 10px;
+}
+
+.left-footer button {
+  padding: 3px 10px;
+  appearance: none;
+  border-radius: 30px;
+  border: 1px solid #b3b3b3;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.left-footer button span {
+  font-size: 12px;
+  color: white;
+}
+
+.left-footer button svg {
+  width: 15px;
+  filter: invert(1);
+}
+
+/* Right Css */
+
+.right {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  position: relative;
+}
+
+.right h1 {
+  color: white;
+  font-weight: bold;
+  margin: 10px 20px;
+}
+
+.spotify-playlists {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+}
+
+.playlist-card {
+  display: flex;
+  flex-direction: column;
+  width: 450px;
+  gap: 10px;
+  padding: 10px;
+  background-color: transparent;
+  border-radius: 10px;
+  width: 200px;
+  color: white;
+  background-color: black;
+}
+
+.playlist-card:hover{
+  background-color: #b3b3b3;
+  color: black;
+  border-radius: 10px;
+  transition: 0.5s;
+}
+
+.playlist-card img {
+  width: 100%;
+  object-fit: contain;
+  border-radius: 10px;
+}
+
+/* Music Player CSS */
+
+.music-player {
+  display: flex;
+  flex-direction: column;
+  color: white;
+  background-color: black;
+  border-radius: 20px;
+  padding: 5px;
+  position: absolute;
+  width: 97%;
+  bottom: 10px;
+}
+
+.music-player svg {
+  width: 30px;
+  filter: invert(1);
+  cursor: pointer;
+}
+
+.top-musicBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  height: 60px;
+}
+
+.musicControl{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.rightSide-MusicBar {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.musicVolumeControl {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.volControl {
+  width: 70px;
+  height: 7px;
+  position: relative;
+}
+
+.volumeRange {
+  /* position: absolute; */
+  width: 70px;
+  height: 7px;
+  background-color: #b3b3b3;
+  border-radius: 10px;
+  /* top: 0; */
+  /* left: calc(0% - 70px); */
+}
+
+.volumeRangeControl {
+  position: absolute;
+  left: -10%;
+  top: -50%;
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+  background-color: #1f1f1f;
+}
+
+.music-SeekBar {
+  width: 98%;
+  height: 10px;
+  align-self: center;
+  margin: 5px;
+  position: relative;
+}
+
+.musicRange {
+  width: 100%;
+  height: 100%;
+  background-color: #b3b3b3;
+  border-radius: 10px;
+}
+
+.musicRangeControl {
+  height: 20px;
+  width: 20px;
+  background-color: #1f1f1f;
+  border-radius: 10px;
+  position: absolute;
+  top: -50%;
+  left: 0%;
 }
