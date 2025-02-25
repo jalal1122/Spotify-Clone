@@ -24,7 +24,7 @@ let pauseButtonSVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24
 
 // Get the songs
 async function getSongs() {
-  let response = await fetch("http://127.0.0.1:3000/assets/music/");
+  let response = await fetch("http://127.0.0.1:3004/assets/music/");
   let result = await response.text();
   let div = document.createElement("div");
   div.innerHTML = result;
@@ -41,15 +41,21 @@ async function getSongs() {
   return songs;
 }
 
+// Function for showing the songs library
 function showSongsLibrary(songs) {
+  // run a loop to show the songs
   for (let index = 0; index < songs.length; index++) {
     let element = songs[index];
+    // remove the path and the extension
     element = element.split("/music/")[1];
     element = element.split(".mp3")[0];
+    // if the length of the song is greater than 20, then truncate it
     if (element.length > 20) {
       element = element.substring(0, 50) + "...";
     }
+    // create a new div element
     let div = document.createElement("li");
+    // set the innerHTML of the div
     div.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32" height="32" color="#000000" fill="none">
     <path d="M11 7.13678V17M11 7.13678C12.8928 8.81698 14.5706 10.0042 16.0063 10.6818C16.6937 11.0062 17.3165 11.0682 18.0198 10.7552C19.7751 9.97419 21 8.20629 21 6.15045C19.0715 7.50911 16.6876 6.77163 14.6847 5.50548C13.0454 4.46918 12.2258 3.95102 11.8569 4.00364C11.5781 4.0434 11.4283 4.1242 11.244 4.33421C11 4.61216 11 5.4537 11 7.13678Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
     <path d="M11 17C11 19.2091 9.20914 21 7 21C4.79086 21 3 19.2091 3 17C3 14.7909 4.79086 13 7 13C9.20914 13 11 14.7909 11 17Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
@@ -60,6 +66,7 @@ function showSongsLibrary(songs) {
     <path d="M18.8906 12.846C18.5371 14.189 16.8667 15.138 13.5257 17.0361C10.296 18.8709 8.6812 19.7884 7.37983 19.4196C6.8418 19.2671 6.35159 18.9776 5.95624 18.5787C5 17.6139 5 15.7426 5 12C5 8.2574 5 6.3861 5.95624 5.42132C6.35159 5.02245 6.8418 4.73288 7.37983 4.58042C8.6812 4.21165 10.296 5.12907 13.5257 6.96393C16.8667 8.86197 18.5371 9.811 18.8906 11.154C19.0365 11.7084 19.0365 12.2916 18.8906 12.846Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
 </svg>
             </li>`;
+    // append the div to the songs library
     document
       .getElementsByClassName("songs-library")[0]
       .getElementsByTagName("ul")[0]
@@ -68,23 +75,67 @@ function showSongsLibrary(songs) {
 }
 
 async function main() {
+  // get songs from the directory
   let songs = await getSongs();
+  // create a new audio object
   song = new Audio(`${songs[0]}`);
 
+  // show the songs library
   showSongsLibrary(songs);
 
+  // add event listener to the play button
   let playButtonDiv = document.getElementsByClassName(
     "playPause-button-div"
   )[0];
   playButtonDiv.addEventListener("click", () => {
+    // if song is paused play it and change the button to pause
     if (song.paused) {
       song.play(song);
       playButtonDiv.innerHTML = pauseButtonSVG;
-    } else {
+      let songName = document.getElementById("songName");
+      songName.innerHTML = songs[0].split("/music/")[1].split(".mp3")[0];
+      songName.innerHTML =
+        songName.innerHTML.length > 20
+          ? songName.innerHTML.substring(0, 30) + "..."
+          : songName.innerHTML;
+    }
+    // if song is playing pause it and change the button to play
+    else {
       song.pause(song);
       playButtonDiv.innerHTML = playButtonSVG;
     }
   });
+
+  // add event listener to play songs from the library
+  let songsLibrary = document
+    .getElementsByClassName("songs-library")[0]
+    .getElementsByTagName("ul")[0]
+    .getElementsByTagName("li");
+  console.log(songsLibrary);
+  for (let index = 0; index < songsLibrary.length; index++) {
+    const element = songsLibrary[index];
+
+    element.addEventListener("click", () => {
+      let songIndex = songs[index];
+      // if song is not paused play the new song and change the button to pause
+      if (!song.paused) {
+        song.pause();
+        song = new Audio(`${songIndex}`);
+        song.play(song);
+        playButtonDiv.innerHTML = pauseButtonSVG;
+      }
+      // if song is paused play the new song and change the button to pause
+      else {
+        song = new Audio(`${songIndex}`);
+        song.play(song);
+        playButtonDiv.innerHTML = pauseButtonSVG;
+      }
+    });
+  }
+
+  // add event listener to the seek bar to change with the change in duration fo song
+  let seekBarControl = document.getElementsByClassName("musicRangeControl")[0];
+  
 }
 
 main();

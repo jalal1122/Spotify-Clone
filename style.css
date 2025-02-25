@@ -230,6 +230,7 @@ main > * {
   justify-content: space-between;
   align-items: center;
   padding: unset;
+  cursor: pointer;
 }
 
 .songs-library ul li:hover {
@@ -240,12 +241,8 @@ main > * {
 
 .songs-library ul li h5 {
   word-break: break-all;
-  width: 200px;
-  /* height: 20px; */
-  /* white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-lines: 2; */
+  width: 150px;
+  font-size: 10px;
 }
 
 .songs-library ul li svg {
@@ -381,6 +378,11 @@ main > * {
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+#songName{
+  width: 250px;
+  font-size: 14px;
 }
 
 .rightSide-MusicBar {
