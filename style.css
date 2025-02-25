@@ -241,8 +241,8 @@ main > * {
 
 .songs-library ul li h5 {
   word-break: break-all;
-  width: 150px;
-  font-size: 10px;
+  width: 280px;
+  /* font-size: 10px; */
 }
 
 .songs-library ul li svg {
@@ -333,7 +333,7 @@ main > * {
   background-color: black;
 }
 
-.playlist-card:hover{
+.playlist-card:hover {
   background-color: #b3b3b3;
   color: black;
   border-radius: 10px;
@@ -374,14 +374,14 @@ main > * {
   height: 60px;
 }
 
-.musicControl{
+.musicControl {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-#songName{
-  width: 250px;
+#songName {
+  width: 300px;
   font-size: 14px;
 }
 
@@ -446,4 +446,5 @@ main > * {
   position: absolute;
   top: -50%;
   left: 0%;
+  transition: all 0.4s;
 }

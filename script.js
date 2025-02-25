@@ -1,5 +1,6 @@
 // Global Variables
-let song = new Audio();
+let song;
+let songs = [];
 
 let playButtonSVG = `<svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -24,7 +25,7 @@ let pauseButtonSVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24
 
 // Get the songs
 async function getSongs() {
-  let response = await fetch("http://127.0.0.1:3004/assets/music/");
+  let response = await fetch("http://127.0.0.1:3000/assets/music/");
   let result = await response.text();
   let div = document.createElement("div");
   div.innerHTML = result;
@@ -41,6 +42,27 @@ async function getSongs() {
   return songs;
 }
 
+//
+
+// Function for playing the song
+function playSong(track) {
+  track.play();
+  // change the name of the song
+  let songName = document.getElementById("songName");
+  songName.innerHTML = decodeURI(track.src)
+    .split("/music/")[1]
+    .split(".mp3")[0];
+  songName.innerHTML =
+    songName.innerHTML.length > 20
+      ? songName.innerHTML.substring(0, 30) + "..."
+      : songName.innerHTML;
+  document
+    .querySelector(".rightSide-MusicBar")
+    .getElementsByTagName(
+      "h5"
+    )[0].innerHTML = `00:00 / ${secondsToMinutesAndSeconds(track.duration)}`;
+}
+
 // Function for showing the songs library
 function showSongsLibrary(songs) {
   // run a loop to show the songs
@@ -50,9 +72,9 @@ function showSongsLibrary(songs) {
     element = element.split("/music/")[1];
     element = element.split(".mp3")[0];
     // if the length of the song is greater than 20, then truncate it
-    if (element.length > 20) {
-      element = element.substring(0, 50) + "...";
-    }
+    // if (element.length > 20) {
+    //   element = element.substring(0, 50) + "...";
+    // }
     // create a new div element
     let div = document.createElement("li");
     // set the innerHTML of the div
@@ -74,11 +96,26 @@ function showSongsLibrary(songs) {
   }
 }
 
+// Function for converting seconds to minutes and seconds
+function secondsToMinutesAndSeconds(second) {
+  let minutes = Math.floor(second / 60);
+  let seconds = Math.floor(second % 60);
+  if (second < 60) {
+    if (second < 10) {
+      return `00:0${Math.floor(second)}`;
+    }
+    return `00:${Math.floor(second)}`;
+  }
+  if (minutes >= 1 && seconds < 10) {
+    return `0${minutes}:0${seconds}`;
+  }
+  return `0${minutes}:${seconds}`;
+}
+
 async function main() {
   // get songs from the directory
-  let songs = await getSongs();
-  // create a new audio object
-  song = new Audio(`${songs[0]}`);
+  songs = await getSongs();
+  song = new Audio(songs[0]);
 
   // show the songs library
   showSongsLibrary(songs);
@@ -89,15 +126,10 @@ async function main() {
   )[0];
   playButtonDiv.addEventListener("click", () => {
     // if song is paused play it and change the button to pause
+    // song.pause()
     if (song.paused) {
-      song.play(song);
+      playSong(song);
       playButtonDiv.innerHTML = pauseButtonSVG;
-      let songName = document.getElementById("songName");
-      songName.innerHTML = songs[0].split("/music/")[1].split(".mp3")[0];
-      songName.innerHTML =
-        songName.innerHTML.length > 20
-          ? songName.innerHTML.substring(0, 30) + "..."
-          : songName.innerHTML;
     }
     // if song is playing pause it and change the button to play
     else {
@@ -108,34 +140,57 @@ async function main() {
 
   // add event listener to play songs from the library
   let songsLibrary = document
-    .getElementsByClassName("songs-library")[0]
-    .getElementsByTagName("ul")[0]
+    .querySelector(".songs-library>ul")
     .getElementsByTagName("li");
-  console.log(songsLibrary);
+
+  // console.log(songsLibrary);
+  Array.from(songsLibrary).forEach((e) => {
+    e.addEventListener("click", () => {
+      playSong(`http://127.0.0.1:3000/assets/music/${e}.mp3`);
+      console.log(e);
+    });
+  });
   for (let index = 0; index < songsLibrary.length; index++) {
     const element = songsLibrary[index];
-
     element.addEventListener("click", () => {
       let songIndex = songs[index];
       // if song is not paused play the new song and change the button to pause
       if (!song.paused) {
         song.pause();
-        song = new Audio(`${songIndex}`);
-        song.play(song);
+        song = songIndex;
+        playSong(song);
         playButtonDiv.innerHTML = pauseButtonSVG;
       }
       // if song is paused play the new song and change the button to pause
       else {
-        song = new Audio(`${songIndex}`);
-        song.play(song);
+        song = songIndex;
+        playSong(song);
         playButtonDiv.innerHTML = pauseButtonSVG;
       }
     });
   }
 
-  // add event listener to the seek bar to change with the change in duration fo song
-  let seekBarControl = document.getElementsByClassName("musicRangeControl")[0];
-  
+  console.log(song.src);
+
+  // change the seek bar value with the change in duration of the song
+  song.addEventListener("timeupdate", () => {
+    let songTime = document
+      .getElementsByClassName("rightSide-MusicBar")[0]
+      .getElementsByTagName("h5")[0];
+    songTime.innerHTML = `${secondsToMinutesAndSeconds(
+      song.currentTime
+    )} / ${secondsToMinutesAndSeconds(song.duration)}`;
+    document.querySelector(".musicRangeControl").style.left = `${
+      (song.currentTime / song.duration) * 100
+    }%`;
+  });
+
+  document.querySelector(".music-SeekBar").addEventListener("click", (e) => {
+    document.querySelector(".musicRangeControl").style.left =
+      (e.offsetX / e.target.getBoundingClientRect().width) * 100 + "%";
+    song.currentTime =
+      (e.offsetX / e.target.getBoundingClientRect().width) * song.duration;
+  });
 }
 
 main();
