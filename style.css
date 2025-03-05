@@ -409,6 +409,7 @@ main > * {
   height: 7px;
   background-color: #b3b3b3;
   border-radius: 10px;
+  cursor: pointer;
   /* top: 0; */
   /* left: calc(0% - 70px); */
 }
@@ -429,6 +430,7 @@ main > * {
   align-self: center;
   margin: 5px;
   position: relative;
+  cursor: pointer;
 }
 
 .musicRange {
