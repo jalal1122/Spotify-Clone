@@ -19,6 +19,14 @@ nav {
   color: #b3b3b3;
 }
 
+nav .navForMobile {
+  display: none;
+}
+
+.navForMiniPhone{
+  display: none;
+}
+
 nav svg {
   color: white;
   /* margin-right: 10px; */
@@ -149,6 +157,32 @@ nav svg {
   cursor: pointer;
 }
 
+.navForMiniPhone .singup-button {
+  padding: 10px;
+  appearance: none;
+  border-radius: 40px;
+  border: none;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+}
+
+.navForMiniPhone .singup-button:hover {
+  color: white;
+}
+
+.navForMiniPhone .login-button {
+  padding: 15px 30px;
+  appearance: none;
+  border-radius: 40px;
+  border: none;
+  background-color: white;
+  color: black;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
 /* Main CSS */
 
 /* Left CSS */
@@ -168,17 +202,31 @@ main > * {
   background-color: #1f1f1f;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
   padding: 15px 15px;
   width: 25vw;
   color: white;
+  transition: all 0.5s;
+}
+
+.library-responsive-icons {
+  display: flex;
+  justify-content: end;
+  margin-top: -15px;
+  margin-right: -7px;
+}
+
+.library-responsive-icons svg {
+  width: 20px;
+  filter: invert(1);
+  cursor: pointer;
 }
 
 .left .library-top-icons {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: 0px 10px 10px #0000004d;
+  box-shadow: 0px 10px 10px #0000001a;
   margin: 0 15px;
 }
 
@@ -242,7 +290,6 @@ main > * {
 .songs-library ul li h5 {
   word-break: break-all;
   width: 280px;
-  /* font-size: 10px; */
 }
 
 .songs-library ul li svg {
@@ -305,25 +352,29 @@ main > * {
   gap: 10px;
   padding: 20px;
   position: relative;
+  min-height: 70vh;
 }
 
 .right h1 {
   color: white;
   font-weight: bold;
-  margin: 10px 20px;
+  margin: 10px 0px;
 }
 
 .spotify-playlists {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  padding: 20px;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  max-height: 75%;
+  overflow: auto;
 }
 
 .playlist-card {
   display: flex;
   flex-direction: column;
-  width: 450px;
   gap: 10px;
   padding: 10px;
   background-color: transparent;
@@ -416,7 +467,7 @@ main > * {
 
 .volumeRangeControl {
   position: absolute;
-  left: -10%;
+  left: 90%;
   top: -50%;
   height: 15px;
   width: 15px;
@@ -449,4 +500,149 @@ main > * {
   top: -50%;
   left: 0%;
   transition: all 0.4s;
+}
+
+/* Media Querries */
+
+@media screen and (max-width: 1700px) {
+  .songs-library ul li h5 {
+    /* font-size: 10px; */
+    width: 180px;
+  }
+}
+
+@media screen and (max-width: 1400px) {
+  .left {
+    width: 30vw;
+  }
+
+  .songs-library ul li h5 {
+    /* font-size: 10px; */
+    width: 160px;
+  }
+}
+
+@media screen and (max-width: 1050px) {
+  nav > .logo-container {
+    display: none;
+  }
+  nav > .home-container {
+    display: none;
+  }
+  nav > .search-container {
+    display: none;
+  }
+  nav > .right-nav {
+    display: none;
+  }
+
+  .responsive-container-icon img{
+    width: 32px;
+    filter: invert(1);
+  }
+
+  nav .navForMobile {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 10px;
+    background-color: #000000;
+  }
+
+  .nav2Top {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+  }
+
+  .left {
+    position: fixed;
+    top: 0;
+    height: 100vh;
+    width: 45vw;
+    left: -100%;
+    z-index: 100;
+    
+  }
+
+  .right {
+    width: 100%;
+    min-height: 60vh;
+  }
+}
+
+
+@media screen and (max-width: 730px) {
+  nav .navForMobile{
+    display: none;
+  }
+
+  nav .navForMiniPhone{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    padding: 10px;
+    background-color: #000000;
+    align-self: center;
+  }
+
+  .search-container input{
+    display: none;
+  }
+
+  .right{
+    min-height: 50vh;
+    max-height: 82vh;
+  }
+
+  .playlist-card{
+    width: 40vw;
+  }
+
+  .spotify-playlists{
+    max-height: 65%;
+  }
+
+  .top-musicBar{
+    flex-direction: column;
+    height: 120px;
+  }
+
+  .left{
+    width: 60vw;
+  }
+}
+
+@media screen and (max-width: 520px) {
+  
+
+
+
+  .right{
+    min-height: 40vh;
+    max-height: 80vh;
+  }
+
+  .left{
+    width: 70vw;
+  }
+
+  .playlist-card{
+    width: 70vw;
+  }
+
+  .spotify-playlists{
+    max-height: 70%;
+  }
+
+  .top-musicBar{
+    flex-direction: column;
+    height: 120px;
+  }
 }

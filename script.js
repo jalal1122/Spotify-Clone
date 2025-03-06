@@ -1,7 +1,7 @@
 // Global Variables
 let currentSong = new Audio();
 let songs = [];
-let currentPlaylist = "";
+let currentPlayList = "";
 
 // Store the Play Button Svg
 let playButtonSVG = `<svg
@@ -43,14 +43,22 @@ function secondsToMinutesSeconds(seconds) {
 
 // Function to get songs from the server
 async function getSongs(playListPath) {
-  // fetch the songs from the server
-  let response = await fetch(
-    `http://127.0.0.1:3002/assets/Playlists/${playListPath}/`
-  );
+  let response;
+  // check if the playlist path is empty
+  if (playListPath === "" || playListPath === undefined) {
+    // get the songs from the music
+    response = await fetch(`http://127.0.0.1:3000/assets/music/`);
+  }
+  // if the playlist path is not empty
+  else {
+    // get the songs from the playlist
+    response = await fetch(
+      `${encodeURI(`http://127.0.0.1:3000/assets/Playlists/${playListPath}/`)}`
+    );
+  }
 
   // change the response to text
   let data = await response.text();
-  console.log(data);
 
   // create a div element to store the data
   let div = document.createElement("div");
@@ -109,14 +117,21 @@ async function getSongs(playListPath) {
 
 // Function to play the song
 function playSong(song) {
-  song = `http://127.0.0.1:3002/assets/music/${song}`;
+  if (currentPlayList === "") {
+    song = `http://127.0.0.1:3000/assets/music/${song}`;
+  } else {
+    song = `http://127.0.0.1:3000/assets/Playlists/${currentPlayList}/${song}`;
+  }
+
+  console.log(song);
+
   // check if the song is playing
   if (!currentSong.paused) {
     // pause the song
     currentSong.pause();
   }
   // set the current song to the song
-  currentSong = new Audio(decodeURI(song));
+  currentSong = new Audio(song);
   // play the song
   currentSong.play();
 
@@ -146,6 +161,8 @@ function playSong(song) {
 async function getPlaylists() {
   let response = await fetch("http://127.0.0.1:3000/assets/playlists/");
   let data = await response.text();
+  // console.log(data);
+
   let div = document.createElement("div");
   div.innerHTML = data;
   let as = div.getElementsByTagName("a");
@@ -172,28 +189,27 @@ async function getPlaylists() {
   return playlists;
 }
 
-function getPlaylist() {
-  let gettingPlaylist = "";
-  let playlist = document.getElementsByClassName("playlist-card");
-  Array.from(playlist).forEach((playlist) => {
-    playlist.addEventListener("click", () => {
-      // console.log(playlist);
-      let divforh3 = playlist.getElementsByTagName("h3")[0];
-
-      gettingPlaylist = divforh3.innerHTML;
-    });
-  });
-  return gettingPlaylist;
-}
-
 async function main() {
   await getPlaylists();
 
-  currentPlaylist = getPlaylist();
-  console.log(currentPlaylist);
-
   // store the songs in the global variable SONGS
-  songs = await getSongs(currentPlaylist);
+  songs = await getSongs(currentPlayList);
+
+  let playlist = document.getElementsByClassName("playlist-card");
+  Array.from(playlist).forEach((playlist) => {
+    playlist.addEventListener("click", () => {
+      currentPlayList = playlist.getElementsByTagName("h3")[0].innerHTML;
+
+      // get the music library element ul and set its inner html to ""
+      document
+        .getElementsByClassName("songs-library")[0]
+        .getElementsByTagName("ul")[0].innerHTML = "";
+
+      songs = getSongs(currentPlayList);
+      console.log(songs);
+    });
+  });
+
   // set the current song to the first song in the songs array
   currentSong = new Audio(`http://127.0.0.1:3000/assets/music/${songs[0]}`);
 
@@ -367,6 +383,16 @@ async function main() {
     document.querySelector(".volumeRangeControl").style.left =
       (clickPosition / width) * 100 + "%";
   });
+
+  // add an event listener for the burger menu
+  document.querySelector(".responsive-container-icon>img").addEventListener("click", () => {
+    document.querySelector(".left").style.left = "0%"
+  })
+
+  // add an event listener for the close button
+  document.querySelector(".library-responsive-icons>svg").addEventListener("click", () => {
+    document.querySelector(".left").style.left = "-100%"
+  })
 }
 
 main();
