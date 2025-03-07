@@ -47,13 +47,13 @@ async function getSongs(playListPath) {
   // check if the playlist path is empty
   if (playListPath === "" || playListPath === undefined) {
     // get the songs from the music
-    response = await fetch(`https://mjspotify.vercel.app/assets/music/`);
+    response = await fetch(`./assets/music/`);
   }
   // if the playlist path is not empty
   else {
     // get the songs from the playlist
     response = await fetch(
-      `${encodeURI(`https://mjspotify.vercel.app/assets/Playlists/${playListPath}/`)}`
+      `${encodeURI(`./assets/Playlists/${playListPath}/`)}`
     );
   }
 
@@ -120,12 +120,12 @@ function playSong(song) {
   // check if the current playlist is empty
   if (currentPlayList === "") {
     // set the song to the music
-    song = `https://mjspotify.vercel.app/assets/music/${song}`;
+    song = `./assets/music/${song}`;
   }
   // if the current playlist is not empty
   else {
     // set the song to the playlist
-    song = `https://mjspotify.vercel.app/assets/Playlists/${currentPlayList}/${song}`;
+    song = `./assets/Playlists/${currentPlayList}/${song}`;
   }
 
   // check if the song is playing
@@ -169,7 +169,7 @@ function playSong(song) {
 
 async function getPlaylists() {
   // get the playlists from the server
-  let response = await fetch("https://mjspotify.vercel.app/assets/Playlists/");
+  let response = await fetch("./assets/Playlists/");
 
   // change the response to text
   let data = await response.text();
