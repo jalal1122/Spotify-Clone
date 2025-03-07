@@ -169,7 +169,7 @@ function playSong(song) {
 
 async function getPlaylists() {
   // get the playlists from the server
-  let response = await fetch("./assets/playlists/");
+  let response = await fetch("./assets/Playlists/");
 
   // change the response to text
   let data = await response.text();
