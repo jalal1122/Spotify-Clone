@@ -47,7 +47,7 @@ async function getSongs(playListPath) {
   // check if the playlist path is empty
   if (playListPath === "" || playListPath === undefined) {
     // get the songs from the music
-    response = await fetch(`./assets/music/`);
+    response = await fetch(`/assets/music/`);
   }
   // if the playlist path is not empty
   else {
