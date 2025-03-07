@@ -53,7 +53,7 @@ async function getSongs(playListPath) {
   else {
     // get the songs from the playlist
     response = await fetch(
-      `${encodeURI(`http://127.0.0.1:3000/assets/Playlists/${playListPath}/`)}`
+      `${encodeURI(`/assets/Playlists/${playListPath}/`)}`
     );
   }
 
@@ -120,12 +120,12 @@ function playSong(song) {
   // check if the current playlist is empty
   if (currentPlayList === "") {
     // set the song to the music
-    song = `http://127.0.0.1:3000/assets/music/${song}`;
+    song = `/assets/music/${song}`;
   }
   // if the current playlist is not empty
   else {
     // set the song to the playlist
-    song = `http://127.0.0.1:3000/assets/Playlists/${currentPlayList}/${song}`;
+    song = `/assets/Playlists/${currentPlayList}/${song}`;
   }
 
   // check if the song is playing
@@ -169,7 +169,7 @@ function playSong(song) {
 
 async function getPlaylists() {
   // get the playlists from the server
-  let response = await fetch("http://127.0.0.1:3000/assets/playlists/");
+  let response = await fetch("/assets/playlists/");
 
   // change the response to text
   let data = await response.text();
@@ -253,7 +253,7 @@ async function main() {
   });
 
   // set the current song to the first song in the songs array
-  currentSong = new Audio(`http://127.0.0.1:3000/assets/music/${songs[0]}`);
+  currentSong = new Audio(`/assets/music/${songs[0]}`);
 
   // set the first song of the songs list to the song name
   document.getElementById("songName").innerText = songs[0]
