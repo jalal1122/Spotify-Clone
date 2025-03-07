@@ -47,7 +47,7 @@ async function getSongs(playListPath) {
   // check if the playlist path is empty
   if (playListPath === "" || playListPath === undefined) {
     // get the songs from the music
-    response = await fetch(`http://127.0.0.1:3000/assets/music/`);
+    response = await fetch(`./assets/music/`);
   }
   // if the playlist path is not empty
   else {
@@ -160,7 +160,7 @@ function playSong(song) {
     ).innerHTML = `${secondsToMinutesSeconds(
       currentSong.currentTime
     )} / ${secondsToMinutesSeconds(currentSong.duration)}`;
-    
+
     // set the left of the music range control to the current time of the song
     document.querySelector(".musicRangeControl").style.left =
       (currentSong.currentTime / currentSong.duration) * 100 + "%";
