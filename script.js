@@ -48,6 +48,8 @@ async function getSongs(playListPath) {
   if (playListPath === "" || playListPath === undefined) {
     // get the songs from the music
     response = await fetch(`./assets/music/`);
+    console.log(response);
+    
   }
   // if the playlist path is not empty
   else {
@@ -55,6 +57,8 @@ async function getSongs(playListPath) {
     response = await fetch(
       `${encodeURI(`./assets/Playlists/${playListPath}/`)}`
     );
+    console.log(response);
+    
   }
 
   // change the response to text
@@ -170,6 +174,8 @@ function playSong(song) {
 async function getPlaylists() {
   // get the playlists from the server
   let response = await fetch("./assets/Playlists/");
+  console.log(response);
+  
 
   // change the response to text
   let data = await response.text();
