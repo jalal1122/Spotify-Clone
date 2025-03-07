@@ -301,6 +301,7 @@ main > * {
   background-color: #1f1f1f;
   width: 75vw;
   border: 2px solid white;
+  min-height: 80vh;
 }
 
 /* Left Footer CSS */
@@ -572,12 +573,18 @@ main > * {
 
   .right {
     width: 100%;
-    min-height: 60vh;
+    min-height: 80vh;
   }
+
+  
 }
 
 
 @media screen and (max-width: 730px) {
+  nav{
+    padding: 0px 20px;
+  }
+
   nav .navForMobile{
     display: none;
   }
@@ -598,7 +605,7 @@ main > * {
 
   .right{
     min-height: 50vh;
-    max-height: 82vh;
+    max-height: 92vh;
   }
 
   .playlist-card{
@@ -606,7 +613,7 @@ main > * {
   }
 
   .spotify-playlists{
-    max-height: 65%;
+    max-height: 78%;
   }
 
   .top-musicBar{
@@ -617,20 +624,30 @@ main > * {
   .left{
     width: 60vw;
   }
+
+  .music-player{
+    width: 94%;
+  }
 }
 
 @media screen and (max-width: 520px) {
   
 
+  .navForMiniPhone .home-container{
+    display: none;
+  }
 
+  .navForMiniPhone .singup-button{
+    display: none;
+  }
 
   .right{
     min-height: 40vh;
-    max-height: 80vh;
+    max-height: 92vh;
   }
 
   .left{
-    width: 70vw;
+    width: 80vw;
   }
 
   .playlist-card{
@@ -638,11 +655,19 @@ main > * {
   }
 
   .spotify-playlists{
-    max-height: 70%;
+    max-height: 78%;
   }
 
   .top-musicBar{
     flex-direction: column;
     height: 120px;
+  }
+
+  .music-player{
+    width: 91%;
+  }
+
+  #songName{
+    width: 230px;
   }
 }

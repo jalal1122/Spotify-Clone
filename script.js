@@ -117,13 +117,16 @@ async function getSongs(playListPath) {
 
 // Function to play the song
 function playSong(song) {
+  // check if the current playlist is empty
   if (currentPlayList === "") {
+    // set the song to the music
     song = `http://127.0.0.1:3000/assets/music/${song}`;
-  } else {
+  }
+  // if the current playlist is not empty
+  else {
+    // set the song to the playlist
     song = `http://127.0.0.1:3000/assets/Playlists/${currentPlayList}/${song}`;
   }
-
-  console.log(song);
 
   // check if the song is playing
   if (!currentSong.paused) {
@@ -132,14 +135,17 @@ function playSong(song) {
   }
   // set the current song to the song
   currentSong = new Audio(song);
+
   // play the song
   currentSong.play();
 
+  // set the song name to the song clicked
   document.getElementById("songName").innerText = song
     .split("/")
     .pop()
     .split(".mp3")[0];
 
+  // set the innerHTML of the time to 00 / 00
   document.querySelector(".rightSide-MusicBar>h5").innerHTML = "00 / 00";
 
   // change the innerHTML of the playPause button to the pause button
@@ -148,45 +154,68 @@ function playSong(song) {
 
   // add an event listener on curentsong to update the time and seekbar of the song
   currentSong.addEventListener("timeupdate", () => {
+    // set the innerHTML of the time to the current time and the duration of the song
     document.querySelector(
       ".rightSide-MusicBar>h5"
     ).innerHTML = `${secondsToMinutesSeconds(
       currentSong.currentTime
     )} / ${secondsToMinutesSeconds(currentSong.duration)}`;
+    
+    // set the left of the music range control to the current time of the song
     document.querySelector(".musicRangeControl").style.left =
       (currentSong.currentTime / currentSong.duration) * 100 + "%";
   });
 }
 
 async function getPlaylists() {
+  // get the playlists from the server
   let response = await fetch("http://127.0.0.1:3000/assets/playlists/");
-  let data = await response.text();
-  // console.log(data);
 
+  // change the response to text
+  let data = await response.text();
+
+  // create a div element to store the data
   let div = document.createElement("div");
+
+  // set the innerHTML of the div to the data
   div.innerHTML = data;
+
+  // get all the anchor tags from the
   let as = div.getElementsByTagName("a");
+
+  // create an array to store the playlists
   let playlists = [];
+
+  // loop through the anchor tags
   for (let a of as) {
+    // check if the href of the anchor tag includes /playlists/
     if (a.href.includes("/playlists/")) {
+      // push the playlist to the playlists array
       playlists.push(decodeURI(a.href));
     }
   }
 
+  // get the playlist library element
   let playlistLibrary = document.querySelector(".spotify-playlists");
+
+  // loop through the playlists
   playlists.forEach((playlist) => {
+    // create a div element
     let div = document.createElement("div");
+
+    // set the innerHTML of the div
     div.innerHTML = `<div class="playlist-card">
             <img src="${playlist}/playlist-card-img-1.png" alt="" />
             <h3>${playlist.split("/playlists/")[1].split("/")[0]}</h3>
             <p>By Spotify</p>
           </div>`;
-    // console.log(playlist);
 
+    // append the div to the playlist library
     playlistLibrary.appendChild(div);
   });
 
-  return playlists;
+  // return the playlists
+  // return playlists;
 }
 
 async function main() {
@@ -195,9 +224,13 @@ async function main() {
   // store the songs in the global variable SONGS
   songs = await getSongs(currentPlayList);
 
+  // get the playlist cards
   let playlist = document.getElementsByClassName("playlist-card");
+
+  // add an event listener to the playlist cards
   Array.from(playlist).forEach((playlist) => {
-    playlist.addEventListener("click", () => {
+    playlist.addEventListener("click", async () => {
+      // set the current playlist to the playlist clicked
       currentPlayList = playlist.getElementsByTagName("h3")[0].innerHTML;
 
       // get the music library element ul and set its inner html to ""
@@ -205,8 +238,17 @@ async function main() {
         .getElementsByClassName("songs-library")[0]
         .getElementsByTagName("ul")[0].innerHTML = "";
 
-      songs = getSongs(currentPlayList);
-      console.log(songs);
+      // get the songs from the current playlist
+      songs = await getSongs(currentPlayList);
+
+      // set the first song of the songs list to the song name
+      document.getElementById("songName").innerText = songs[0]
+        .split("/")
+        .pop()
+        .split(".mp3")[0];
+
+      // play the first song in the clicked playlist
+      playSong(songs[0]);
     });
   });
 
@@ -292,6 +334,8 @@ async function main() {
     .getElementsByClassName("previous-button-div")[0]
     .addEventListener("click", () => {
       // get the index of the current song
+      console.log(songs);
+
       let index = songs.indexOf(decodeURI(currentSong.src.split("/").pop()));
       // check if the current song is the first song
       if (index === 0) {
@@ -385,14 +429,20 @@ async function main() {
   });
 
   // add an event listener for the burger menu
-  document.querySelector(".responsive-container-icon>img").addEventListener("click", () => {
-    document.querySelector(".left").style.left = "0%"
-  })
+  document
+    .querySelector(".responsive-container-icon>img")
+    .addEventListener("click", () => {
+      console.log("clicked");
+
+      document.querySelector(".left").style.left = "0%";
+    });
 
   // add an event listener for the close button
-  document.querySelector(".library-responsive-icons>svg").addEventListener("click", () => {
-    document.querySelector(".left").style.left = "-100%"
-  })
+  document
+    .querySelector(".library-responsive-icons>svg")
+    .addEventListener("click", () => {
+      document.querySelector(".left").style.left = "-100%";
+    });
 }
 
 main();
