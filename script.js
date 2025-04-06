@@ -49,7 +49,6 @@ async function getSongs(playListPath) {
     // get the songs from the music
     response = await fetch(`./assets/music/`);
     console.log(response);
-    
   }
   // if the playlist path is not empty
   else {
@@ -58,7 +57,6 @@ async function getSongs(playListPath) {
       `${encodeURI(`./assets/Playlists/${playListPath}/`)}`
     );
     console.log(response);
-    
   }
 
   // change the response to text
@@ -175,7 +173,6 @@ async function getPlaylists() {
   // get the playlists from the server
   let response = await fetch("./assets/playlists/");
   console.log(response);
-  
 
   // change the response to text
   let data = await response.text();
@@ -435,13 +432,18 @@ async function main() {
   });
 
   // add an event listener for the burger menu
-  document
-    .querySelector(".responsive-container-icon>img")
-    .addEventListener("click", () => {
+  Array.from(document.getElementsByClassName("burgerImg")).forEach((el) => {
+    el.addEventListener("click", (e) => {
       console.log("clicked");
 
       document.querySelector(".left").style.left = "0%";
+      e.target.style.transform = "scale(0.9)";
+
+      setTimeout(() => {
+        e.target.style.transform = "scale(1)";
+      }, 300);
     });
+  });
 
   // add an event listener for the close button
   document

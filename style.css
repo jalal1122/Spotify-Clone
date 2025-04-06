@@ -23,8 +23,12 @@ nav .navForMobile {
   display: none;
 }
 
-.navForMiniPhone{
+.navForMiniPhone {
   display: none;
+}
+
+.burgerImg {
+  cursor: pointer;
 }
 
 nav svg {
@@ -537,7 +541,7 @@ main > * {
     display: none;
   }
 
-  .responsive-container-icon img{
+  .responsive-container-icon img {
     width: 32px;
     filter: invert(1);
   }
@@ -568,28 +572,24 @@ main > * {
     width: 45vw;
     left: -100%;
     z-index: 100;
-    
   }
 
   .right {
     width: 100%;
     min-height: 80vh;
   }
-
-  
 }
 
-
 @media screen and (max-width: 730px) {
-  nav{
+  nav {
     padding: 0px 20px;
   }
 
-  nav .navForMobile{
+  nav .navForMobile {
     display: none;
   }
 
-  nav .navForMiniPhone{
+  nav .navForMiniPhone {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -599,75 +599,73 @@ main > * {
     align-self: center;
   }
 
-  .search-container input{
+  .search-container input {
     display: none;
   }
 
-  .right{
+  .right {
     min-height: 50vh;
     max-height: 92vh;
   }
 
-  .playlist-card{
+  .playlist-card {
     width: 40vw;
   }
 
-  .spotify-playlists{
+  .spotify-playlists {
     max-height: 78%;
   }
 
-  .top-musicBar{
+  .top-musicBar {
     flex-direction: column;
     height: 120px;
   }
 
-  .left{
+  .left {
     width: 60vw;
   }
 
-  .music-player{
+  .music-player {
     width: 94%;
   }
 }
 
 @media screen and (max-width: 520px) {
-  
-
-  .navForMiniPhone .home-container{
+  .navForMiniPhone .home-container {
     display: none;
   }
 
-  .navForMiniPhone .singup-button{
+  .navForMiniPhone .singup-button {
     display: none;
   }
 
-  .right{
+  .right {
     min-height: 40vh;
     max-height: 92vh;
   }
 
-  .left{
+  .left {
     width: 80vw;
   }
 
-  .playlist-card{
+  .playlist-card {
     width: 70vw;
   }
 
-  .spotify-playlists{
+  .spotify-playlists {
     max-height: 78%;
   }
 
-  .top-musicBar{
+  .top-musicBar {
     flex-direction: column;
     height: 120px;
   }
 
-  .music-player{
+  .music-player {
     width: 91%;
   }
 
-  #songName{
+  #songName {
     width: 230px;
   }
 }
